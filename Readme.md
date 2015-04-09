@@ -33,7 +33,7 @@ db.store('books').get('key').then(function() {});
 As a standalone library, for example to enable IndexedDB in PhantomJS environment:
 
 ```js
-if (!window.indexedDB) require('treo-websql/shim');
+if (!window.indexedDB) require('treo-websql').polyfill();
 var req = window.indexedDB.open('mydb');
 ```
 
