@@ -57,7 +57,7 @@ function polyfill() {
 
 function fixIndexSupport(index) {
   index.get = function get(key, cb) {
-    console.warn('treo-websql: index is enefficient');
+    console.warn('treo-websql: index is inefficient');
     var result = [];
     var r = parseRange(key);
 
@@ -95,7 +95,7 @@ function fixIndexSupport(index) {
 
   index.count = function count(key, cb) {
     this.get(key, function(err, result) {
-      err ? cb(err) : cb(null, index.unique && result ? 1 : result.length);
+      err ? cb(err) : cb(null, (index.unique && result) ? 1 : result.length);
     });
   };
 }
