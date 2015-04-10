@@ -1,4 +1,5 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.treoWebsql = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var parseRange = require('idb-range');
 var isSafari = typeof window.openDatabase !== 'undefined' &&
     /Safari/.test(navigator.userAgent) &&
     !/Chrome/.test(navigator.userAgent);
@@ -34,7 +35,7 @@ function treoWebsql() {
       var store = db.store(storeName);
       Object.keys(store.indexes).forEach(function(indexName) {
         var index = store.index(indexName);
-        fixIndexSupport(treo, index);
+        fixIndexSupport(index);
       });
     });
   };
@@ -54,10 +55,11 @@ function polyfill() {
  * @param {Index} index
  */
 
-function fixIndexSupport(treo, index) {
-  index.get = function get(r, cb) {
-    console.warn('treo-websql: index is inefficient');
+function fixIndexSupport(index) {
+  index.get = function get(key, cb) {
+    console.warn('treo-websql: index is enefficient');
     var result = [];
+    var r = parseRange(key);
 
     this.store.cursor({ iterator: iterator }, function(err) {
       err ? cb(err) : cb(null, index.unique ? result[0] : result);
@@ -98,7 +100,7 @@ function fixIndexSupport(treo, index) {
   };
 }
 
-},{"./shim":2}],2:[function(require,module,exports){
+},{"./shim":2,"idb-range":3}],2:[function(require,module,exports){
 /*jshint globalstrict: true*/
 'use strict';
 /**
@@ -1910,5 +1912,73 @@ var cleanInterface = false;
 
 }(window, idbModules));
 
+},{}],3:[function(require,module,exports){
+(function (global){
+
+/**
+ * Parse `opts` to valid IDBKeyRange.
+ * https://developer.mozilla.org/en-US/docs/Web/API/IDBKeyRange
+ *
+ * @param {Object|Any} opts
+ * @return {IDBKeyRange}
+ */
+
+module.exports = function range(opts) {
+  var IDBKeyRange = keyRange();
+  if (typeof opts === 'undefined') return;
+  if (opts instanceof IDBKeyRange) return opts;
+  if (!isObject(opts)) return IDBKeyRange.only(opts);
+  var keys = Object.keys(opts).sort();
+
+  if (keys.length == 1) {
+    var key = keys[0];
+    var val = opts[key];
+    switch (keys[0]) {
+      case 'eq': return IDBKeyRange.only(val);
+      case 'gt': return IDBKeyRange.lowerBound(val, true);
+      case 'lt': return IDBKeyRange.upperBound(val, true);
+      case 'gte': return IDBKeyRange.lowerBound(val);
+      case 'lte': return IDBKeyRange.upperBound(val);
+      default: throw new TypeError('`' + key + '` is not valid key');
+    }
+  } else {
+    var x = opts[keys[0]];
+    var y = opts[keys[1]];
+    var pattern = keys.join('-');
+
+    switch (pattern) {
+      case 'gt-lt': return IDBKeyRange.bound(x, y, true, true);
+      case 'gt-lte': return IDBKeyRange.bound(x, y, true, false);
+      case 'gte-lt': return IDBKeyRange.bound(x, y, false, true);
+      case 'gte-lte': return IDBKeyRange.bound(x, y, false, false);
+      default: throw new TypeError('`' + pattern +'` are conflicted keys');
+    }
+  }
+};
+
+/**
+ * Dynamic link to `global.IDBKeyRange` for polyfills.
+ *
+ * @return {IDBKeyRange}
+ */
+
+function keyRange() {
+  return global.IDBKeyRange
+      || global.webkitIDBKeyRange
+      || global.msIDBKeyRange;
+}
+
+/**
+ * Check if `obj` is an object.
+ *
+ * @param {Object} obj
+ * @return {Boolean}
+ */
+
+function isObject(obj) {
+  return Object.prototype.toString.call(obj) == '[object Object]';
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1])(1)
 });

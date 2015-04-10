@@ -2,7 +2,7 @@
   "name": "treo-websql",
   "description": "Fallback to WebSQL when IndexedDB is not available",
   "repository": "git://github.com/treojs/treo-websql.git",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "keywords": [
