@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "browserify": "^9.0.8"
+  },
+  "dependencies": {
+    "idb-range": "^2.3.0"
   }
 }
