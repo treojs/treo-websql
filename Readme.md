@@ -1,5 +1,8 @@
 # treo-websql
 
+[![](https://img.shields.io/npm/v/treo-websql.svg)](https://npmjs.org/package/treo-websql)
+[![](http://img.shields.io/npm/dm/treo-websql.svg)](https://npmjs.org/package/treo-websql)
+
 Fallback to WebSQL when IndexedDB is not available.
 
 ## Installation
