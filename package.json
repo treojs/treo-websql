@@ -11,10 +11,9 @@
     "treo"
   ],
   "dependencies": {
-    "idb-range": "^2.3.1",
-    "indexeddbshim": "^1.0.14"
+    "indexeddbshim": "^2.0.4"
   },
   "files": [
     "lib"
-  ],
+  ]
 }
