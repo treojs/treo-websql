@@ -9,15 +9,6 @@ Fallback to WebSQL when IndexedDB is not available.
 
     npm install --save treo-websql
 
-Or use standalone build [dist/treo-websql.js](./dist/treo-websql.js).
-
-```html
-<script src="treo-websql.js"></script>
-<script>
-  var db = window.treo('my-db', schema).use(window.treoWebsql());
-</script>
-```
-
 ## Usage
 
 As a [treo](http://treojs.com) plugin:
@@ -42,4 +33,4 @@ var req = window.indexedDB.open('mydb');
 
 ## License
 
-MIT
+[MIT](./LICENSE)

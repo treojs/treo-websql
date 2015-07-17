@@ -10,16 +10,11 @@
     "websql",
     "treo"
   ],
+  "dependencies": {
+    "idb-range": "^2.3.1",
+    "indexeddbshim": "^1.0.14"
+  },
   "files": [
     "lib"
   ],
-  "scripts": {
-    "build": "browserify ./lib/index.js -s treoWebsql -o dist/treo-websql.js"
-  },
-  "devDependencies": {
-    "browserify": "^9.0.8"
-  },
-  "dependencies": {
-    "idb-range": "^2.3.0"
-  }
 }
