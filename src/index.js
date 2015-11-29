@@ -1,4 +1,3 @@
-import ES6Promise from 'es6-promise'
 
 /**
  * Detect env.
@@ -18,14 +17,13 @@ const isValid = (!isSafari || getSafariVersion() >= 9) // Safari 9 is OK
   && typeof IDBKeyRange !== 'undefined'
 
 /**
- * Enable polyfills for treo.
+ * Setup "indexeddbshim" and "idb-factory".
  *
  * @param {Object} [treo]
  */
 
 export default function treoWebsql() {
   require('indexeddbshim')
-  ES6Promise.polyfill()
 
   if (!isValid) {
     console.log(`treo-websql: force browser to use indexeddbshim`) // eslint-disable-line
