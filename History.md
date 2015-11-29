@@ -1,6 +1,10 @@
+## 3.0.0 / 2015-07-17
+
+* full rewrite with ES6, support treo@0.6.0
+
 ## 2.0.0 / 2015-07-17
 
-* full rewrite, support treo >= 0.6.0-rc2
+* full rewrite, support treo@0.6.0-rc2
 * remove standalone build
 
 ## 1.0.3 / 2015-04-13
