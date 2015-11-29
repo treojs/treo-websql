@@ -1,9 +1,12 @@
 # treo-websql
 
+> Treo plugin to fallback to WebSQL.
+
 [![](https://img.shields.io/npm/v/treo-websql.svg)](https://npmjs.org/package/treo-websql)
 [![](http://img.shields.io/npm/dm/treo-websql.svg)](https://npmjs.org/package/treo-websql)
 
-> Fallback to WebSQL when IndexedDB is not available.
+This module forces [treo](https://github.com/treojs/treo) to use `WebSQL` in `Safari 8-` and when `IndexedDB` is not available.
+Also it patches `IE` implementation to support compound indexes.
 
 ## Installation
 
@@ -11,24 +14,16 @@
 
 ## Usage
 
-As a [treo](http://treojs.com) plugin:
-
 ```js
-var treo = require('treo')
-var websql = require('treo-websql')
-websql(treo) // patch
+import treo from 'treo'
+import treoWebsql from 'treo-websql'
 
-var db = treo('mydb')
+// enable indexeddbshim && custom "idb-factory" setup
+treoWebsql()
 
 // works everywhere
-db.store('books').get('key').then(function() {})
-```
-
-As a polyfill to enable IndexedDB in PhantomJS environment:
-
-```js
-if (!window.indexedDB) require('treo-websql').polyfill()
-var req = window.indexedDB.open('mydb')
+const db = treo('mydb')
+db.books.get('key').then((val) => {})
 ```
 
 ## License

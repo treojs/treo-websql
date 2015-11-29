@@ -1,6 +1,6 @@
 {
   "name": "treo-websql",
-  "description": "Treo plugin to enable IndexedDB using WebSQL",
+  "description": "Treo plugin to fallback to WebSQL",
   "repository": "treojs/treo-websql",
   "version": "2.0.0",
   "license": "MIT",
